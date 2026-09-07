@@ -1,19 +1,65 @@
 import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle } from 'docx';
 import { saveAs } from 'file-saver';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 import type { Resume } from '../types/resume';
 
 /**
- * Trigger print / Save as PDF
+ * Direct file download: renders the active resume into a crisp PDF file and saves directly to disk
+ */
+export async function exportToPDFDirect(resume: Resume): Promise<void> {
+  const element = document.querySelector('.resume-page') as HTMLElement;
+  if (!element) {
+    exportToPDF(resume);
+    return;
+  }
+
+  const canvas = await html2canvas(element, {
+    scale: 2,
+    useCORS: true,
+    logging: false,
+    backgroundColor: '#ffffff',
+    windowWidth: element.scrollWidth,
+  });
+
+  const imgData = canvas.toDataURL('image/jpeg', 0.98);
+  const pdf = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: 'a4',
+  });
+
+  const pdfWidth = 210;
+  const pdfHeight = 297;
+  const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+  let heightLeft = imgHeight;
+  let position = 0;
+
+  pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
+  heightLeft -= pdfHeight;
+
+  while (heightLeft > 5) {
+    position -= pdfHeight;
+    pdf.addPage();
+    pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
+    heightLeft -= pdfHeight;
+  }
+
+  const fileName = `${(resume.personalInfo.fullName || 'Resume').trim().replace(/\s+/g, '_')}_Resume.pdf`;
+  pdf.save(fileName);
+}
+
+/**
+ * Browser Print / Save as PDF
  */
 export function exportToPDF(resume: Resume) {
   const originalTitle = document.title;
   const name = resume.personalInfo.fullName.trim() || 'My';
   document.title = `${name.replace(/\s+/g, '_')}_Resume`;
 
-  // Brief delay to ensure title update is registered by the browser print dialog
   setTimeout(() => {
     window.print();
-    // Restore title after print dialog closes
     setTimeout(() => {
       document.title = originalTitle;
     }, 1000);
