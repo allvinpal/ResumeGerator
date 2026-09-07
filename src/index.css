@@ -102,6 +102,9 @@ body {
   body,
   #root,
   .h-screen,
+  .min-h-screen,
+  .flex,
+  .flex-col,
   .flex-1,
   .builder-preview,
   .resume-preview-container,
@@ -124,8 +127,8 @@ body {
   .print-area {
     display: block !important;
     position: static !important;
-    width: 100% !important;
-    margin: 0 !important;
+    width: 210mm !important;
+    margin: 0 auto !important;
     padding: 0 !important;
   }
 

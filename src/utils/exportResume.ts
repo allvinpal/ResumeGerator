@@ -51,19 +51,189 @@ export async function exportToPDFDirect(resume: Resume): Promise<void> {
 }
 
 /**
- * Browser Print / Save as PDF
+ * Browser Print / Save as PDF using an isolated iframe
+ * This guarantees zero flexbox offset, zero top blank space, crisp vector text, and accurate pagination.
  */
 export function exportToPDF(resume: Resume) {
+  const element = (document.querySelector('.print-area') || document.querySelector('.resume-page')) as HTMLElement | null;
+  
+  const name = resume.personalInfo.fullName?.trim() || 'My';
+  const fileName = `${name.replace(/\s+/g, '_')}_Resume`;
   const originalTitle = document.title;
-  const name = resume.personalInfo.fullName.trim() || 'My';
-  document.title = `${name.replace(/\s+/g, '_')}_Resume`;
 
-  setTimeout(() => {
+  if (!element) {
+    document.title = fileName;
     window.print();
     setTimeout(() => {
       document.title = originalTitle;
     }, 1000);
-  }, 250);
+    return;
+  }
+
+  // Create isolated iframe
+  const iframe = document.createElement('iframe');
+  iframe.style.position = 'fixed';
+  iframe.style.right = '0';
+  iframe.style.bottom = '0';
+  iframe.style.width = '0';
+  iframe.style.height = '0';
+  iframe.style.border = '0';
+  iframe.style.opacity = '0';
+  iframe.style.pointerEvents = 'none';
+  iframe.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(iframe);
+
+  const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+  if (!iframeDoc) {
+    document.title = fileName;
+    window.print();
+    setTimeout(() => {
+      document.title = originalTitle;
+    }, 1000);
+    return;
+  }
+
+  // Collect all link and style elements
+  const headElements: string[] = [];
+  document.querySelectorAll('link[rel="stylesheet"], link[rel="preconnect"], style').forEach((node) => {
+    headElements.push(node.outerHTML);
+  });
+
+  const printStyles = `
+    @page {
+      size: A4 portrait;
+      margin: 0mm; /* Suppresses browser date, time, URL, and page title */
+    }
+    *, *::before, *::after {
+      box-sizing: border-box !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      background: #ffffff !important;
+      width: 100% !important;
+      height: auto !important;
+      min-height: 0 !important;
+      overflow: visible !important;
+    }
+    table.print-container-table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      border-spacing: 0 !important;
+      border: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    thead.print-header-spacer {
+      display: table-header-group !important;
+    }
+    tfoot.print-footer-spacer {
+      display: table-footer-group !important;
+    }
+    .print-spacer-top {
+      height: 12mm !important;
+      padding: 0 !important;
+      border: none !important;
+      line-height: 0 !important;
+    }
+    .print-spacer-bottom {
+      height: 12mm !important;
+      padding: 0 !important;
+      border: none !important;
+      line-height: 0 !important;
+    }
+    .print-body-cell {
+      padding: 0 14mm !important;
+      border: none !important;
+      vertical-align: top !important;
+    }
+    .print-area {
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+    }
+    .resume-page {
+      margin: 0 !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      border: none !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-height: auto !important;
+      background: transparent !important;
+      transform: none !important;
+      position: static !important;
+    }
+    h1, h2, h3, h4 {
+      break-after: avoid !important;
+      page-break-after: avoid !important;
+    }
+    li,
+    ul,
+    p,
+    div[style*="marginBottom"],
+    .avoid-break {
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+  `;
+
+  iframeDoc.open();
+  iframeDoc.write(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  ${headElements.join('\n')}
+  <style>${printStyles}</style>
+</head>
+<body>
+  <table class="print-container-table">
+    <thead class="print-header-spacer">
+      <tr>
+        <td class="print-spacer-top">&nbsp;</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="print-body-cell">
+          ${element.outerHTML}
+        </td>
+      </tr>
+    </tbody>
+    <tfoot class="print-footer-spacer">
+      <tr>
+        <td class="print-spacer-bottom">&nbsp;</td>
+      </tr>
+    </tfoot>
+  </table>
+</body>
+</html>`);
+  iframeDoc.close();
+
+  // Allow iframe document and fonts to settle before printing
+  setTimeout(() => {
+    try {
+      iframe.contentWindow?.focus();
+      iframe.contentWindow?.print();
+    } catch (err) {
+      console.error('Iframe print error, falling back to window.print():', err);
+      document.title = fileName;
+      window.print();
+      setTimeout(() => {
+        document.title = originalTitle;
+      }, 1000);
+    } finally {
+      // Clean up after user closes the print dialog
+      setTimeout(() => {
+        if (document.body.contains(iframe)) {
+          document.body.removeChild(iframe);
+        }
+      }, 5000);
+    }
+  }, 300);
 }
 
 /**
