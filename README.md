@@ -2,6 +2,8 @@
 
 > **Create a professional resume. 100% Free. No login required.**
 
+🌐 **Live Website:** [https://cvmint.9to5tech.in/](https://cvmint.9to5tech.in/)
+
 CVMint is a modern, privacy-first web application designed to help job seekers, developers, students, and professionals craft ATS-friendly, visually stunning resumes and export them instantly to PDF, Word (.docx), and Plain Text.
 
 ---
