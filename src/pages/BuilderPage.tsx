@@ -84,8 +84,8 @@ export default function BuilderPage() {
   return (
     <>
       <Helmet>
-        <title>Resume Builder — ResumeForge</title>
-        <meta name="description" content="Build your professional resume with ResumeForge's free online resume builder. Live preview, multiple templates, PDF & DOCX export." />
+        <title>Resume Builder — CVMint</title>
+        <meta name="description" content="Build your professional resume with CVMint's free online resume builder. Live preview, multiple templates, PDF & DOCX export." />
       </Helmet>
 
       <div className="h-screen flex flex-col">
@@ -114,7 +114,7 @@ export default function BuilderPage() {
                 <FileText size={14} className="text-white" />
               </div>
               <span className="text-lg font-bold text-secondary-900 hidden sm:block">
-                Resume<span className="text-primary-600">Forge</span>
+                CV<span className="text-primary-600">Mint</span>
               </span>
             </Link>
           </div>

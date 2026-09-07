@@ -60,7 +60,7 @@ export default function HomePage() {
   return (
     <>
       <Helmet>
-        <title>ResumeForge — Free Professional Resume Builder | No Login Required</title>
+        <title>CVMint — Free Resume Builder | No Login Required</title>
         <meta
           name="description"
           content="Build a job-winning resume for free. Professional templates, PDF & DOCX export, ATS-friendly formatting. No login, no watermarks, no subscriptions."
@@ -200,11 +200,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── Why Use ResumeForge ─────────────────────────────────── */}
+      {/* ─── Why Use CVMint ─────────────────────────────────────── */}
       <section className="py-16 sm:py-24 bg-secondary-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-secondary-900">Why Use ResumeForge?</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-secondary-900">Why Use CVMint?</h2>
             <p className="mt-3 text-lg text-secondary-500">Everything you need to create a professional resume</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
@@ -229,7 +229,7 @@ export default function HomePage() {
             Ready to Build Your Resume?
           </h2>
           <p className="mt-4 text-lg text-secondary-500">
-            Join thousands of job seekers who've created their professional resume with ResumeForge.
+            Join thousands of job seekers who've created their professional resume with CVMint.
             It's completely free — start now.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3">

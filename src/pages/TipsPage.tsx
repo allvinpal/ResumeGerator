@@ -17,7 +17,7 @@ export default function TipsPage() {
   return (
     <>
       <Helmet>
-        <title>Resume Tips — ResumeForge</title>
+        <title>Resume Tips — CVMint</title>
         <meta name="description" content="Expert resume writing tips to help you land more interviews. Learn how to format, optimize, and tailor your resume." />
       </Helmet>
 

@@ -22,7 +22,7 @@ export default function ExamplesPage() {
   return (
     <>
       <Helmet>
-        <title>Resume Examples — ResumeForge</title>
+        <title>Resume Examples — CVMint</title>
         <meta name="description" content="Browse professional resume examples for Data Engineer, Software Engineer, MBA, Fresher, and more. Use any example as a template." />
       </Helmet>
 

@@ -18,7 +18,7 @@ export default function TemplatesPage() {
   return (
     <>
       <Helmet>
-        <title>Free Resume Templates — ResumeForge</title>
+        <title>Free Resume Templates — CVMint</title>
         <meta name="description" content="Choose from 8 professional, ATS-friendly resume templates. Modern, Classic, Minimal, Executive, Tech, Corporate, Creative and ATS-optimized templates." />
       </Helmet>
 

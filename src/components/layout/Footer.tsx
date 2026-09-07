@@ -31,7 +31,7 @@ export default function Footer() {
                 <FileText size={18} className="text-white" />
               </div>
               <span className="text-xl font-bold text-secondary-900">
-                Resume<span className="text-primary-600">Forge</span>
+                CV<span className="text-primary-600">Mint</span>
               </span>
             </Link>
             <p className="text-sm text-secondary-500 leading-relaxed">
@@ -94,7 +94,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="mt-10 pt-6 border-t border-secondary-200 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-sm text-secondary-400">
-            © {new Date().getFullYear()} ResumeForge. Free and open source.
+            © {new Date().getFullYear()} CVMint — Free Resume Builder. Free and open source.
           </p>
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1 text-sm text-secondary-400">

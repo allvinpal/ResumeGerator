@@ -6,7 +6,7 @@ export default function ATSCheckerPage() {
   return (
     <>
       <Helmet>
-        <title>Free ATS Resume Checker — ResumeForge</title>
+        <title>Free ATS Resume Checker — CVMint</title>
         <meta name="description" content="Check your resume against job descriptions for free. Get an ATS compatibility score and suggestions to improve your resume." />
       </Helmet>
 

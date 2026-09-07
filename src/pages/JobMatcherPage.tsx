@@ -6,7 +6,7 @@ export default function JobMatcherPage() {
   return (
     <>
       <Helmet>
-        <title>Job Description Matcher — ResumeForge</title>
+        <title>Job Description Matcher — CVMint</title>
         <meta name="description" content="Match your resume to a job description. Find matching skills, missing keywords, and get suggestions to improve your application." />
       </Helmet>
 

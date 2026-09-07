@@ -26,7 +26,7 @@ export default function Header() {
               <FileText size={18} className="text-white" />
             </div>
             <span className="text-xl font-bold text-secondary-900">
-              Resume<span className="text-primary-600">Forge</span>
+              CV<span className="text-primary-600">Mint</span>
             </span>
           </Link>
 

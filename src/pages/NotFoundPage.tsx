@@ -6,7 +6,7 @@ export default function NotFoundPage() {
   return (
     <>
       <Helmet>
-        <title>Page Not Found — ResumeForge</title>
+        <title>Page Not Found — CVMint</title>
       </Helmet>
 
       <div className="max-w-xl mx-auto px-4 py-24 text-center">

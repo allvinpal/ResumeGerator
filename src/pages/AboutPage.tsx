@@ -7,13 +7,13 @@ export default function AboutPage() {
   return (
     <>
       <Helmet>
-        <title>About — ResumeForge</title>
-        <meta name="description" content="ResumeForge is a free, open-source resume builder. No login, no watermarks, no hidden fees." />
+        <title>About — CVMint</title>
+        <meta name="description" content="CVMint is a free, open-source resume builder. No login, no watermarks, no hidden fees." />
       </Helmet>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-secondary-900">About ResumeForge</h1>
+          <h1 className="text-4xl font-bold text-secondary-900">About CVMint</h1>
           <p className="mt-3 text-lg text-secondary-500">
             Create a professional resume for free.
           </p>
@@ -21,7 +21,7 @@ export default function AboutPage() {
 
         <div className="prose prose-secondary max-w-none">
           <p className="text-secondary-600 leading-relaxed text-lg">
-            ResumeForge is a free, open-source resume builder designed for everyone — students, freshers,
+            CVMint is a free, open-source resume builder designed for everyone — students, freshers,
             experienced professionals, developers, data engineers, managers, MBA candidates, and job seekers worldwide.
           </p>
 

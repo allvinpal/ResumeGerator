@@ -1,8 +1,8 @@
-# ResumeForge — Free Professional Resume Builder
+# CVMint — Free Resume Builder
 
 > **Create a professional resume. 100% Free. No login required.**
 
-ResumeForge is a modern, privacy-first web application designed to help job seekers, developers, students, and professionals craft ATS-friendly, visually stunning resumes and export them instantly to PDF, Word (.docx), and Plain Text.
+CVMint is a modern, privacy-first web application designed to help job seekers, developers, students, and professionals craft ATS-friendly, visually stunning resumes and export them instantly to PDF, Word (.docx), and Plain Text.
 
 ---
 

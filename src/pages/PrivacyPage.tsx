@@ -4,8 +4,8 @@ export default function PrivacyPage() {
   return (
     <>
       <Helmet>
-        <title>Privacy Policy — ResumeForge</title>
-        <meta name="description" content="ResumeForge privacy policy. Your resume data stays on your device." />
+        <title>Privacy Policy — CVMint</title>
+        <meta name="description" content="CVMint privacy policy. Your resume data stays on your device." />
       </Helmet>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -17,7 +17,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-semibold text-secondary-900">Your Data, Your Device</h2>
             <p className="text-secondary-600">
-              ResumeForge is designed with a privacy-first approach. All resume data you create is stored
+              CVMint is designed with a privacy-first approach. All resume data you create is stored
               locally on your device using your browser's built-in storage (IndexedDB/localStorage).
               <strong> Your resume content never leaves your browser unless you explicitly choose to export or download it.</strong>
             </p>
@@ -44,7 +44,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-semibold text-secondary-900">Third-Party Services</h2>
             <p className="text-secondary-600">
-              ResumeForge loads fonts from Google Fonts. This means Google may receive your IP address when
+              CVMint loads fonts from Google Fonts. This means Google may receive your IP address when
               the page loads. No other third-party services receive your data.
             </p>
           </section>
