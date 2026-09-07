@@ -3,108 +3,108 @@ import { z } from 'zod';
 // ─── Zod Schemas ───────────────────────────────────────────────
 
 export const personalInfoSchema = z.object({
-  fullName: z.string().min(1, 'Full name is required'),
-  professionalTitle: z.string().optional().default(''),
-  email: z.string().email('Invalid email').or(z.literal('')).default(''),
-  phone: z.string().optional().default(''),
-  city: z.string().optional().default(''),
-  state: z.string().optional().default(''),
-  country: z.string().optional().default(''),
-  linkedinUrl: z.string().url('Invalid URL').or(z.literal('')).default(''),
-  githubUrl: z.string().url('Invalid URL').or(z.literal('')).default(''),
-  portfolioUrl: z.string().url('Invalid URL').or(z.literal('')).default(''),
-  otherWebsite: z.string().url('Invalid URL').or(z.literal('')).default(''),
-  profilePhoto: z.string().optional().default(''),
+  fullName: z.string().default(''),
+  professionalTitle: z.string().default(''),
+  email: z.string().default(''),
+  phone: z.string().default(''),
+  city: z.string().default(''),
+  state: z.string().default(''),
+  country: z.string().default(''),
+  linkedinUrl: z.string().default(''),
+  githubUrl: z.string().default(''),
+  portfolioUrl: z.string().default(''),
+  otherWebsite: z.string().default(''),
+  profilePhoto: z.string().default(''),
 });
 
 export const experienceSchema = z.object({
   id: z.string(),
-  jobTitle: z.string().min(1, 'Job title is required'),
-  company: z.string().min(1, 'Company is required'),
-  location: z.string().optional().default(''),
+  jobTitle: z.string().default(''),
+  company: z.string().default(''),
+  location: z.string().default(''),
   employmentType: z.enum(['full-time', 'part-time', 'contract', 'freelance', 'internship', 'other']).default('full-time'),
-  startMonth: z.string().optional().default(''),
-  startYear: z.string().optional().default(''),
-  endMonth: z.string().optional().default(''),
-  endYear: z.string().optional().default(''),
+  startMonth: z.string().default(''),
+  startYear: z.string().default(''),
+  endMonth: z.string().default(''),
+  endYear: z.string().default(''),
   currentlyWorking: z.boolean().default(false),
-  description: z.string().optional().default(''),
+  description: z.string().default(''),
   achievements: z.array(z.string()).default([]),
 });
 
 export const educationSchema = z.object({
   id: z.string(),
-  degree: z.string().min(1, 'Degree is required'),
-  university: z.string().min(1, 'University is required'),
-  location: z.string().optional().default(''),
-  startYear: z.string().optional().default(''),
-  endYear: z.string().optional().default(''),
-  gpa: z.string().optional().default(''),
-  relevantCoursework: z.string().optional().default(''),
-  description: z.string().optional().default(''),
+  degree: z.string().default(''),
+  university: z.string().default(''),
+  location: z.string().default(''),
+  startYear: z.string().default(''),
+  endYear: z.string().default(''),
+  gpa: z.string().default(''),
+  relevantCoursework: z.string().default(''),
+  description: z.string().default(''),
 });
 
 export const skillCategorySchema = z.object({
   id: z.string(),
-  name: z.string(),
+  name: z.string().default(''),
   skills: z.array(z.string()).default([]),
 });
 
 export const projectSchema = z.object({
   id: z.string(),
-  name: z.string().min(1, 'Project name is required'),
-  role: z.string().optional().default(''),
+  name: z.string().default(''),
+  role: z.string().default(''),
   technologies: z.array(z.string()).default([]),
-  startDate: z.string().optional().default(''),
-  endDate: z.string().optional().default(''),
-  projectUrl: z.string().url('Invalid URL').or(z.literal('')).default(''),
-  description: z.string().optional().default(''),
+  startDate: z.string().default(''),
+  endDate: z.string().default(''),
+  projectUrl: z.string().default(''),
+  description: z.string().default(''),
   achievements: z.array(z.string()).default([]),
 });
 
 export const certificationSchema = z.object({
   id: z.string(),
-  name: z.string().min(1, 'Certification name is required'),
-  issuingOrganization: z.string().optional().default(''),
-  date: z.string().optional().default(''),
-  credentialId: z.string().optional().default(''),
-  credentialUrl: z.string().url('Invalid URL').or(z.literal('')).default(''),
+  name: z.string().default(''),
+  issuingOrganization: z.string().default(''),
+  date: z.string().default(''),
+  credentialId: z.string().default(''),
+  credentialUrl: z.string().default(''),
 });
 
 export const achievementSchema = z.object({
   id: z.string(),
-  title: z.string().min(1, 'Achievement title is required'),
-  description: z.string().optional().default(''),
-  date: z.string().optional().default(''),
+  title: z.string().default(''),
+  description: z.string().default(''),
+  date: z.string().default(''),
 });
 
 export const languageSchema = z.object({
   id: z.string(),
-  language: z.string().min(1, 'Language is required'),
+  language: z.string().default(''),
   proficiency: z.enum(['native', 'fluent', 'advanced', 'intermediate', 'beginner']).default('intermediate'),
 });
 
 export const awardSchema = z.object({
   id: z.string(),
-  title: z.string().min(1, 'Award title is required'),
-  organization: z.string().optional().default(''),
-  date: z.string().optional().default(''),
-  description: z.string().optional().default(''),
+  title: z.string().default(''),
+  organization: z.string().default(''),
+  date: z.string().default(''),
+  description: z.string().default(''),
 });
 
 export const volunteerSchema = z.object({
   id: z.string(),
-  role: z.string().min(1, 'Role is required'),
-  organization: z.string().min(1, 'Organization is required'),
-  startDate: z.string().optional().default(''),
-  endDate: z.string().optional().default(''),
-  description: z.string().optional().default(''),
+  role: z.string().default(''),
+  organization: z.string().default(''),
+  startDate: z.string().default(''),
+  endDate: z.string().default(''),
+  description: z.string().default(''),
   achievements: z.array(z.string()).default([]),
 });
 
 export const customSectionSchema = z.object({
   id: z.string(),
-  title: z.string().min(1, 'Section title is required'),
+  title: z.string().default(''),
   items: z.array(z.object({
     id: z.string(),
     content: z.string().default(''),
@@ -159,7 +159,7 @@ export const resumeSchema = z.object({
     'customSections',
   ]),
   sectionVisibility: sectionVisibilitySchema.default({}),
-  personalInfo: personalInfoSchema.default({}),
+  personalInfo: personalInfoSchema.default({ fullName: '' }),
   summary: z.string().default(''),
   experience: z.array(experienceSchema).default([]),
   education: z.array(educationSchema).default([]),
@@ -262,15 +262,81 @@ export const DEFAULT_SKILL_CATEGORIES = [
 
 export function createEmptyResume(name = 'Untitled Resume'): Resume {
   const now = new Date().toISOString();
-  return resumeSchema.parse({
+  return {
     id: crypto.randomUUID(),
     name,
     createdAt: now,
     updatedAt: now,
+    template: 'modern',
+    settings: {
+      fontFamily: 'Inter',
+      fontSize: 11,
+      headingSize: 16,
+      lineSpacing: 'normal',
+      margins: 'normal',
+      accentColor: '#1a56db',
+      sectionSpacing: 'normal',
+    },
+    sectionOrder: [
+      'personalInfo',
+      'summary',
+      'experience',
+      'education',
+      'skills',
+      'projects',
+      'certifications',
+      'achievements',
+      'languages',
+      'awards',
+      'volunteerExperience',
+      'customSections',
+    ],
+    sectionVisibility: {
+      personalInfo: true,
+      summary: true,
+      experience: true,
+      education: true,
+      skills: true,
+      projects: true,
+      certifications: true,
+      achievements: false,
+      languages: false,
+      awards: false,
+      volunteerExperience: false,
+      customSections: false,
+    },
     personalInfo: {
       fullName: '',
+      professionalTitle: '',
+      email: '',
+      phone: '',
+      city: '',
+      state: '',
+      country: '',
+      linkedinUrl: '',
+      githubUrl: '',
+      portfolioUrl: '',
+      otherWebsite: '',
+      profilePhoto: '',
     },
-  });
+    summary: '',
+    experience: [],
+    education: [],
+    skills: [
+      {
+        id: crypto.randomUUID(),
+        name: 'Technical Skills',
+        skills: [],
+      },
+    ],
+    projects: [],
+    certifications: [],
+    achievements: [],
+    languages: [],
+    awards: [],
+    volunteerExperience: [],
+    customSections: [],
+  };
 }
 
 // ─── Helper: create empty entries ──────────────────────────────

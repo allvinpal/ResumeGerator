@@ -20,11 +20,6 @@ export default function EducationForm() {
     });
   };
 
-  const yearOptions = Array.from({ length: 40 }, (_, i) => {
-    const year = String(new Date().getFullYear() - i);
-    return { value: year, label: year };
-  });
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">

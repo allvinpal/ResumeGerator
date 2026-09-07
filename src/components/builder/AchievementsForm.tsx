@@ -31,7 +31,7 @@ export default function AchievementsForm() {
       )}
 
       <div className="space-y-3">
-        {resume.achievements.map((ach, i) => (
+        {resume.achievements.map((ach) => (
           <Card key={ach.id} padding="sm">
             <div className="flex gap-3">
               <div className="flex-1 space-y-3">

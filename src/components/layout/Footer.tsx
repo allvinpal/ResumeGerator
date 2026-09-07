@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FileText, Github, Heart } from 'lucide-react';
+import { FileText, Heart } from 'lucide-react';
 
 const footerLinks = {
   product: [

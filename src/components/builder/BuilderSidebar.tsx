@@ -15,7 +15,6 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { useResumeStore } from '../../store/resumeStore';
-import type { SectionKey } from '../../types/resume';
 import { SECTION_METADATA } from '../../types/resume';
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
