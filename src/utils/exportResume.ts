@@ -63,7 +63,7 @@ export function exportToPDF(resume: Resume) {
     setTimeout(() => {
       document.title = originalTitle;
     }, 1000);
-  }, 100);
+  }, 250);
 }
 
 /**

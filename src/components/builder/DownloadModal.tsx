@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useResumeStore } from '../../store/resumeStore';
-import { exportToPDF, exportToPDFDirect, exportToDocx, exportToJSON, exportToTXT } from '../../utils/exportResume';
-import { FileText, Download, X, FileCheck, Code2, Printer, Check, Sparkles } from 'lucide-react';
+import { exportToPDF, exportToDocx, exportToJSON, exportToTXT } from '../../utils/exportResume';
+import { FileText, Download, X, FileCheck, Code2, Printer, Check } from 'lucide-react';
 import Button from '../ui/Button';
 
 interface Props {
@@ -11,29 +11,16 @@ interface Props {
 
 export default function DownloadModal({ isOpen, onClose }: Props) {
   const { resume } = useResumeStore();
-  const [loadingPDF, setLoadingPDF] = useState(false);
   const [loadingDocx, setLoadingDocx] = useState(false);
   const [savedSuccess, setSavedSuccess] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
-  const handleDownloadPDFDirect = async () => {
-    try {
-      setLoadingPDF(true);
-      await exportToPDFDirect(resume);
-      setSavedSuccess('PDF downloaded directly to your device!');
-      setTimeout(() => setSavedSuccess(null), 3000);
-    } catch (err) {
-      console.error('Failed direct PDF export, falling back to print:', err);
-      exportToPDF(resume);
-    } finally {
-      setLoadingPDF(false);
-    }
-  };
-
-  const handlePrintPDF = () => {
+  const handleDownloadPDF = () => {
     onClose();
-    exportToPDF(resume);
+    setTimeout(() => {
+      exportToPDF(resume);
+    }, 250);
   };
 
   const handleDownloadDocx = async () => {
@@ -62,7 +49,11 @@ export default function DownloadModal({ isOpen, onClose }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-150">
+    <div
+      className="no-print fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-150"
+      role="dialog"
+      aria-modal="true"
+    >
       <div className="bg-white rounded-2xl shadow-2xl border border-secondary-200 w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-150">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-secondary-100 bg-secondary-50/50">
@@ -92,48 +83,24 @@ export default function DownloadModal({ isOpen, onClose }: Props) {
             </div>
           )}
 
-          {/* Option 1: Direct PDF File Download */}
+          {/* Option 1: PDF */}
           <button
-            onClick={handleDownloadPDFDirect}
-            disabled={loadingPDF}
+            onClick={handleDownloadPDF}
             className="w-full flex items-center justify-between p-4 rounded-xl border-2 border-primary-500 bg-primary-50/50 hover:bg-primary-50 transition-all text-left cursor-pointer group"
           >
             <div className="flex items-center gap-3.5">
               <div className="w-10 h-10 rounded-xl bg-primary-600 text-white flex items-center justify-center shadow-xs">
-                <Download size={20} />
+                <Printer size={20} />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-secondary-900">Download PDF File</span>
-                  <span className="text-[10px] font-bold uppercase tracking-wider bg-primary-600 text-white px-1.5 py-0.2 rounded flex items-center gap-1">
-                    <Sparkles size={10} /> Direct File
-                  </span>
+                  <span className="text-sm font-bold text-secondary-900">Download PDF</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-primary-600 text-white px-1.5 py-0.2 rounded">Recommended</span>
                 </div>
-                <p className="text-xs text-secondary-500 mt-0.5">Saves .pdf file directly to your Downloads folder</p>
+                <p className="text-xs text-secondary-500 mt-0.5">High-resolution vector PDF (Save as PDF)</p>
               </div>
             </div>
-            {loadingPDF ? (
-              <div className="w-5 h-5 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
-            ) : (
-              <Download size={18} className="text-primary-600 group-hover:translate-y-0.5 transition-transform" />
-            )}
-          </button>
-
-          {/* Option 2: Print / Save via Browser */}
-          <button
-            onClick={handlePrintPDF}
-            className="w-full flex items-center justify-between p-3.5 rounded-xl border border-secondary-200 hover:border-secondary-300 hover:bg-secondary-50 transition-all text-left cursor-pointer group"
-          >
-            <div className="flex items-center gap-3.5">
-              <div className="w-9 h-9 rounded-xl bg-slate-800 text-white flex items-center justify-center">
-                <Printer size={18} />
-              </div>
-              <div>
-                <span className="text-sm font-semibold text-secondary-900">Print / Browser PDF</span>
-                <p className="text-xs text-secondary-500">Opens browser system print / Save as PDF dialog</p>
-              </div>
-            </div>
-            <Printer size={16} className="text-secondary-400 group-hover:text-secondary-700 transition-colors" />
+            <Download size={18} className="text-primary-600 group-hover:translate-y-0.5 transition-transform" />
           </button>
 
           {/* Option 2: DOCX */}
@@ -148,7 +115,7 @@ export default function DownloadModal({ isOpen, onClose }: Props) {
               </div>
               <div>
                 <span className="text-sm font-bold text-secondary-900">Word Document (.docx)</span>
-                <p className="text-xs text-secondary-500 mt-0.5">Fully editable in Microsoft Word and Google Docs</p>
+                <p className="text-xs text-secondary-500 mt-0.5">Fully editable in Microsoft Word & Google Docs</p>
               </div>
             </div>
             {loadingDocx ? (
@@ -186,7 +153,7 @@ export default function DownloadModal({ isOpen, onClose }: Props) {
               </div>
               <div>
                 <span className="text-sm font-semibold text-secondary-900">JSON Backup (.json)</span>
-                <p className="text-xs text-secondary-500">Save your full resume data to reload later</p>
+                <p className="text-xs text-secondary-500">Save complete resume data to re-import anytime</p>
               </div>
             </div>
             <Download size={16} className="text-secondary-400 group-hover:text-secondary-700 transition-colors" />

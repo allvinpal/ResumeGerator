@@ -82,8 +82,10 @@ body {
 
 /* ─── Print Styles ──────────────────────────────────────────── */
 @media print {
-  /* Hide non-printable elements */
+  /* Hide non-printable elements, modals, overlays */
   .no-print,
+  .fixed,
+  [role="dialog"],
   header,
   aside,
   nav,
@@ -92,6 +94,7 @@ body {
   .builder-sidebar,
   .builder-form {
     display: none !important;
+    visibility: hidden !important;
   }
 
   /* Reset all containers so the printable resume is in normal flow */
