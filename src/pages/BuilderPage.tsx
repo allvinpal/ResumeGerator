@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import {
-  FileText, Save, Eye, EyeOff, Download, Menu, X, Check,
+  FileText, Save, Eye, EyeOff, Download, Menu, X, Check, Upload,
 } from 'lucide-react';
 import { useResumeStore } from '../store/resumeStore';
 import { sampleResume } from '../data/sampleResume';
@@ -24,6 +24,7 @@ import TemplateSelector from '../components/builder/TemplateSelector';
 import FinalReview from '../components/builder/FinalReview';
 import ResumePreview from '../components/preview/ResumePreview';
 import DownloadModal from '../components/builder/DownloadModal';
+import UploadResumeModal from '../components/builder/UploadResumeModal';
 import { exportToPDF, exportToDocx } from '../utils/exportResume';
 
 const formMap: Record<string, React.ComponentType> = {

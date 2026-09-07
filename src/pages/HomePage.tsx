@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import {
   FileText,
@@ -15,6 +16,7 @@ import {
   Zap,
 } from 'lucide-react';
 import Button from '../components/ui/Button';
+import UploadResumeModal from '../components/builder/UploadResumeModal';
 
 const steps = [
   {
@@ -57,6 +59,9 @@ const features = [
 ];
 
 export default function HomePage() {
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const navigate = useNavigate();
+
   return (
     <>
       <Helmet>
@@ -91,11 +96,14 @@ export default function HomePage() {
                     Create Resume Free
                   </Button>
                 </Link>
-                <Link to="/resume-builder?upload=true">
-                  <Button variant="outline" size="lg" icon={<Upload size={18} />}>
-                    Upload Existing Resume
-                  </Button>
-                </Link>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  icon={<Upload size={18} />}
+                  onClick={() => setUploadModalOpen(true)}
+                >
+                  Upload Existing Resume
+                </Button>
               </div>
               <p className="mt-4 text-sm text-secondary-400">
                 No login · No credit card · No watermark
@@ -246,6 +254,13 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Upload Modal */}
+      <UploadResumeModal
+        isOpen={uploadModalOpen}
+        onClose={() => setUploadModalOpen(false)}
+        onSuccess={() => navigate('/resume-builder')}
+      />
     </>
   );
 }
