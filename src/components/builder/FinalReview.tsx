@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useResumeStore } from '../../store/resumeStore';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
-import { Download, Printer, CheckCircle, AlertCircle } from 'lucide-react';
+import { Download, Printer, CheckCircle, AlertCircle, Check } from 'lucide-react';
+import { exportToPDF, exportToDocx } from '../../utils/exportResume';
 
 export default function FinalReview() {
   const { resume } = useResumeStore();
@@ -21,8 +23,30 @@ export default function FinalReview() {
   const completedCount = checks.filter(c => c.ok).length;
   const percentage = Math.round((completedCount / checks.length) * 100);
 
+  const [loadingDocx, setLoadingDocx] = useState(false);
+  const [downloadSuccess, setDownloadSuccess] = useState<string | null>(null);
+
+  const handleDownloadDocx = async () => {
+    try {
+      setLoadingDocx(true);
+      await exportToDocx(resume);
+      setDownloadSuccess('DOCX downloaded successfully!');
+      setTimeout(() => setDownloadSuccess(null), 3000);
+    } catch (err) {
+      console.error('Failed to export DOCX:', err);
+    } finally {
+      setLoadingDocx(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
+      {downloadSuccess && (
+        <div className="flex items-center gap-2 p-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-medium">
+          <Check size={16} />
+          {downloadSuccess}
+        </div>
+      )}
       <div>
         <h2 className="text-xl font-semibold text-secondary-900">Final Review</h2>
         <p className="text-sm text-secondary-500 mt-1">Review your resume before downloading.</p>
@@ -98,18 +122,25 @@ export default function FinalReview() {
 
       {/* Download Actions */}
       <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-secondary-200">
-        <Button size="lg" icon={<Download size={18} />} fullWidth>
+        <Button size="lg" icon={<Download size={18} />} fullWidth onClick={() => exportToPDF(resume)}>
           Download PDF
         </Button>
-        <Button variant="outline" size="lg" icon={<Download size={18} />} fullWidth>
-          Download DOCX
+        <Button
+          variant="outline"
+          size="lg"
+          icon={<Download size={18} />}
+          fullWidth
+          disabled={loadingDocx}
+          onClick={handleDownloadDocx}
+        >
+          {loadingDocx ? 'Generating Word Doc...' : 'Download DOCX'}
         </Button>
         <Button
           variant="ghost"
           size="lg"
           icon={<Printer size={18} />}
           fullWidth
-          onClick={() => window.print()}
+          onClick={() => exportToPDF(resume)}
         >
           Print
         </Button>

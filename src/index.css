@@ -82,10 +82,20 @@ body {
 
 /* ─── Print Styles ──────────────────────────────────────────── */
 @media print {
+  html, body {
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
   body * {
     visibility: hidden;
   }
 
+  #resume-preview,
+  #resume-preview *,
   .print-area,
   .print-area * {
     visibility: visible;
@@ -96,13 +106,15 @@ body {
     left: 0;
     top: 0;
     width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .resume-page {
-    box-shadow: none;
-    margin: 0;
-    padding: 15mm;
-    page-break-after: always;
+    box-shadow: none !important;
+    margin: 0 auto !important;
+    border: none !important;
+    min-height: auto !important;
   }
 
   @page {
