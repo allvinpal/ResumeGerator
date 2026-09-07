@@ -48,20 +48,22 @@ export default function BuilderPage() {
   const { activeStep, showPreview, setShowPreview, resume, setResume } = useResumeStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [saveToast, setSaveToast] = useState(false);
 
   // Load sample resume if empty (for demo purposes) or restore saved
   useEffect(() => {
+    const { resume: currentResume, setResume: storeSetResume } = useResumeStore.getState();
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('demo') === 'true' && !resume.personalInfo.fullName) {
-      setResume(sampleResume);
-    } else if (!resume.personalInfo.fullName) {
+    if (urlParams.get('demo') === 'true' && !currentResume.personalInfo.fullName) {
+      storeSetResume(sampleResume);
+    } else if (!currentResume.personalInfo.fullName) {
       try {
         const saved = localStorage.getItem('resumeforge_resume');
         if (saved) {
           const parsed = JSON.parse(saved);
           if (parsed && parsed.personalInfo) {
-            setResume(parsed);
+            storeSetResume(parsed);
           }
         }
       } catch (err) {
@@ -128,6 +130,16 @@ export default function BuilderPage() {
               onClick={() => setResume(sampleResume)}
             >
               Load Demo
+            </Button>
+
+            {/* Import Resume button */}
+            <Button
+              variant="outline"
+              size="sm"
+              icon={<Upload size={16} />}
+              onClick={() => setUploadModalOpen(true)}
+            >
+              Import
             </Button>
 
             {/* Mobile preview toggle */}
@@ -213,6 +225,12 @@ export default function BuilderPage() {
       <DownloadModal
         isOpen={downloadModalOpen}
         onClose={() => setDownloadModalOpen(false)}
+      />
+
+      {/* Upload/Import Resume Modal */}
+      <UploadResumeModal
+        isOpen={uploadModalOpen}
+        onClose={() => setUploadModalOpen(false)}
       />
     </>
   );

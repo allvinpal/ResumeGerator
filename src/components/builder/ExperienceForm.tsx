@@ -225,7 +225,7 @@ export default function ExperienceForm() {
                     </div>
                     <div className="space-y-2">
                       {exp.achievements.map((bullet, bulletIdx) => (
-                        <div key={bulletIdx} className="flex gap-2">
+                        <div key={`${exp.id}-bullet-${bulletIdx}`} className="flex gap-2">
                           <span className="mt-2.5 text-secondary-400 text-sm">•</span>
                           <input
                             type="text"

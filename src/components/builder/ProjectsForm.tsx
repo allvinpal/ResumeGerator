@@ -154,7 +154,7 @@ export default function ProjectsForm() {
                     </div>
                     <div className="space-y-2">
                       {proj.achievements.map((bullet, idx) => (
-                        <div key={idx} className="flex gap-2">
+                        <div key={`${proj.id}-bullet-${idx}`} className="flex gap-2">
                           <span className="mt-2.5 text-secondary-400 text-sm">•</span>
                           <input type="text" value={bullet} onChange={(e) => handleUpdateBullet(proj.id, idx, e.target.value)}
                             placeholder="e.g. Reduced fraud detection time from hours to under 30 seconds"

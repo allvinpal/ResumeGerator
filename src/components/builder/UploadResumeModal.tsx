@@ -16,6 +16,7 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
   const [file, setFile] = useState<File | null>(null);
   const [pastedText, setPastedText] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<string>('Processing...');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [parsedSummary, setParsedSummary] = useState<{
     name: string;
@@ -25,6 +26,18 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
   } | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Reset all local state and close, so reopening gives a clean slate
+  const handleClose = () => {
+    setActiveTab('upload');
+    setFile(null);
+    setPastedText('');
+    setIsProcessing(false);
+    setStatusMessage('Processing...');
+    setErrorMessage(null);
+    setParsedSummary(null);
+    onClose();
+  };
 
   if (!isOpen) return null;
 
@@ -55,6 +68,7 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
 
     setIsProcessing(true);
     setErrorMessage(null);
+    setStatusMessage('Reading file...');
 
     try {
       // If user uploaded a CVMint JSON backup
@@ -70,7 +84,7 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
             skillsCount: json.skills?.reduce((acc: number, c: any) => acc + (c.skills?.length || 0), 0) || 0,
           });
           setTimeout(() => {
-            onClose();
+            handleClose();
             if (onSuccess) onSuccess();
           }, 800);
           return;
@@ -79,8 +93,10 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
 
       let extractedText = '';
       if (file.name.endsWith('.pdf')) {
-        extractedText = await extractTextFromPDF(file);
+        setStatusMessage('Extracting PDF text...');
+        extractedText = await extractTextFromPDF(file, (msg) => setStatusMessage(msg));
       } else if (file.name.endsWith('.docx') || file.name.endsWith('.doc')) {
+        setStatusMessage('Reading Word document...');
         extractedText = await extractTextFromDOCX(file);
       } else if (file.name.endsWith('.txt')) {
         extractedText = await extractTextFromTXT(file);
@@ -89,9 +105,10 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
       }
 
       if (!extractedText || !extractedText.trim()) {
-        throw new Error('Could not extract text from this file. It may be a scanned image or protected.');
+        throw new Error('Could not extract text from this file. The file may be empty or password protected.');
       }
 
+      setStatusMessage('Structuring resume sections...');
       const parsed = parseResumeFromText(extractedText, file.name.replace(/\.[^/.]+$/, ''));
       setResume(parsed);
 
@@ -103,7 +120,7 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
       });
 
       setTimeout(() => {
-        onClose();
+        handleClose();
         if (onSuccess) onSuccess();
       }, 1000);
     } catch (err: any) {
@@ -122,6 +139,7 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
 
     setIsProcessing(true);
     setErrorMessage(null);
+    setStatusMessage('Structuring resume sections...');
 
     try {
       const parsed = parseResumeFromText(pastedText);
@@ -135,7 +153,7 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
       });
 
       setTimeout(() => {
-        onClose();
+        handleClose();
         if (onSuccess) onSuccess();
       }, 800);
     } catch (err: any) {
@@ -165,7 +183,8 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
             </div>
           </div>
           <button
-            onClick={onClose}
+            onClick={handleClose}
+            disabled={isProcessing}
             className="p-1.5 rounded-lg text-secondary-400 hover:text-secondary-600 hover:bg-secondary-100 transition-colors cursor-pointer"
           >
             <X size={18} />
@@ -176,6 +195,7 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
         <div className="flex border-b border-secondary-100 bg-secondary-50/30 px-6 pt-2">
           <button
             onClick={() => { setActiveTab('upload'); setErrorMessage(null); }}
+            disabled={isProcessing}
             className={`pb-3 px-3 text-xs font-semibold border-b-2 transition-colors cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'upload'
                 ? 'border-primary-600 text-primary-600'
@@ -187,6 +207,7 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
           </button>
           <button
             onClick={() => { setActiveTab('paste'); setErrorMessage(null); }}
+            disabled={isProcessing}
             className={`pb-3 px-3 text-xs font-semibold border-b-2 transition-colors cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'paste'
                 ? 'border-primary-600 text-primary-600'
@@ -207,6 +228,13 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
             </div>
           )}
 
+          {isProcessing && (
+            <div className="mb-4 flex items-center gap-3 p-3.5 bg-primary-50 text-primary-800 border border-primary-200 rounded-xl text-xs font-medium">
+              <Loader2 size={18} className="animate-spin text-primary-600 flex-shrink-0" />
+              <span>{statusMessage}</span>
+            </div>
+          )}
+
           {parsedSummary ? (
             <div className="p-4 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-xl text-sm flex flex-col items-center text-center gap-2">
               <CheckCircle2 size={32} className="text-emerald-600 animate-in zoom-in duration-200" />
@@ -222,12 +250,12 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
               <div
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={handleDrop}
-                onClick={() => fileInputRef.current?.click()}
+                onClick={() => !isProcessing && fileInputRef.current?.click()}
                 className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all ${
                   file
                     ? 'border-primary-500 bg-primary-50/40'
                     : 'border-secondary-300 hover:border-primary-400 hover:bg-secondary-50/50'
-                }`}
+                } ${isProcessing ? 'pointer-events-none opacity-60' : ''}`}
               >
                 <input
                   type="file"
@@ -252,14 +280,14 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
                       Drop your resume here, or <span className="text-primary-600">browse files</span>
                     </p>
                     <p className="text-xs text-secondary-400 mt-1">
-                      Supports PDF, DOCX, TXT, or CVMint JSON (Max 15MB)
+                      Supports PDF (including scanned), DOCX, TXT, or JSON (Max 15MB)
                     </p>
                   </div>
                 )}
               </div>
 
               <div className="mt-5 flex justify-end gap-2">
-                <Button variant="outline" size="sm" onClick={onClose} disabled={isProcessing}>
+                <Button variant="outline" size="sm" onClick={handleClose} disabled={isProcessing}>
                   Cancel
                 </Button>
                 <Button
@@ -268,7 +296,7 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
                   disabled={!file || isProcessing}
                   icon={isProcessing ? <Loader2 size={16} className="animate-spin" /> : <ArrowRight size={16} />}
                 >
-                  {isProcessing ? 'Parsing Resume...' : 'Import & Edit'}
+                  {isProcessing ? 'Processing...' : 'Import & Edit'}
                 </Button>
               </div>
             </div>
@@ -281,6 +309,7 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
                 rows={8}
                 value={pastedText}
                 onChange={(e) => setPastedText(e.target.value)}
+                disabled={isProcessing}
                 placeholder="Paste the text from your existing resume or LinkedIn profile here..."
                 className="w-full text-xs p-3 border border-secondary-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-mono resize-none leading-relaxed"
               />
@@ -289,7 +318,7 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
               </p>
 
               <div className="mt-4 flex justify-end gap-2">
-                <Button variant="outline" size="sm" onClick={onClose} disabled={isProcessing}>
+                <Button variant="outline" size="sm" onClick={handleClose} disabled={isProcessing}>
                   Cancel
                 </Button>
                 <Button
@@ -298,7 +327,7 @@ export default function UploadResumeModal({ isOpen, onClose, onSuccess }: Props)
                   disabled={!pastedText.trim() || isProcessing}
                   icon={isProcessing ? <Loader2 size={16} className="animate-spin" /> : <ArrowRight size={16} />}
                 >
-                  {isProcessing ? 'Parsing Resume...' : 'Import & Edit'}
+                  {isProcessing ? 'Processing...' : 'Import & Edit'}
                 </Button>
               </div>
             </div>
