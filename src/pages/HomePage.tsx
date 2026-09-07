@@ -106,58 +106,62 @@ export default function HomePage() {
             <div className="hidden lg:block">
               <div className="relative">
                 {/* Main resume card */}
-                <div className="bg-white rounded-xl shadow-2xl border border-secondary-200 p-8 max-w-[420px] ml-auto transform rotate-1 hover:rotate-0 transition-transform duration-500">
-                  {/* Mini resume preview */}
-                  <div className="space-y-4">
+                <div className="bg-white rounded-xl shadow-2xl border border-secondary-200 p-7 max-w-[440px] ml-auto transform rotate-1 hover:rotate-0 transition-transform duration-500 text-left">
+                  {/* Real resume preview */}
+                  <div className="space-y-3.5">
                     <div>
-                      <div className="h-6 w-48 bg-secondary-900 rounded" />
-                      <div className="h-3 w-36 bg-primary-500 rounded mt-2" />
+                      <h3 className="text-xl font-bold text-secondary-900 leading-tight">Alex Morgan</h3>
+                      <p className="text-xs font-semibold text-primary-600 mt-0.5">Senior Full-Stack & Cloud Engineer</p>
+                      <p className="text-[11px] text-secondary-500 mt-1">
+                        San Francisco, CA • alex.morgan@example.com • +1 (555) 234-5678
+                      </p>
                     </div>
-                    <div className="flex gap-3">
-                      <div className="h-2.5 w-24 bg-secondary-200 rounded" />
-                      <div className="h-2.5 w-20 bg-secondary-200 rounded" />
-                      <div className="h-2.5 w-28 bg-secondary-200 rounded" />
+
+                    <div className="border-t border-secondary-200 pt-2.5">
+                      <h4 className="text-[11px] font-bold uppercase tracking-wider text-secondary-900 mb-1">
+                        Summary
+                      </h4>
+                      <p className="text-[11px] text-secondary-600 leading-relaxed">
+                        High-impact engineer with 6+ years building scalable distributed systems and cloud platforms handling 10M+ daily events.
+                      </p>
                     </div>
-                    <div className="border-t border-secondary-100 pt-3">
-                      <div className="h-3 w-24 bg-secondary-800 rounded mb-2" />
-                      <div className="space-y-1.5">
-                        <div className="h-2 w-full bg-secondary-100 rounded" />
-                        <div className="h-2 w-5/6 bg-secondary-100 rounded" />
-                        <div className="h-2 w-4/5 bg-secondary-100 rounded" />
-                      </div>
-                    </div>
-                    <div className="border-t border-secondary-100 pt-3">
-                      <div className="h-3 w-32 bg-secondary-800 rounded mb-2" />
-                      <div className="space-y-2.5">
+
+                    <div className="border-t border-secondary-200 pt-2.5">
+                      <h4 className="text-[11px] font-bold uppercase tracking-wider text-secondary-900 mb-1.5">
+                        Experience
+                      </h4>
+                      <div className="space-y-2">
                         <div>
-                          <div className="flex justify-between">
-                            <div className="h-2.5 w-32 bg-secondary-700 rounded" />
-                            <div className="h-2 w-20 bg-secondary-200 rounded" />
+                          <div className="flex justify-between items-baseline">
+                            <span className="text-xs font-semibold text-secondary-900">Senior Software Engineer — CloudScale</span>
+                            <span className="text-[10px] text-secondary-500">2022 – Present</span>
                           </div>
-                          <div className="h-2 w-24 bg-primary-200 rounded mt-1" />
-                          <div className="mt-1.5 space-y-1">
-                            <div className="h-2 w-full bg-secondary-100 rounded" />
-                            <div className="h-2 w-11/12 bg-secondary-100 rounded" />
-                          </div>
+                          <p className="text-[11px] text-secondary-600 mt-0.5">
+                            • Architected event-driven microservices reducing latency by 42%
+                          </p>
+                          <p className="text-[11px] text-secondary-600">
+                            • Scaled Kubernetes clusters handling 50k requests/sec at 99.99% uptime
+                          </p>
                         </div>
                         <div>
-                          <div className="flex justify-between">
-                            <div className="h-2.5 w-28 bg-secondary-700 rounded" />
-                            <div className="h-2 w-20 bg-secondary-200 rounded" />
+                          <div className="flex justify-between items-baseline">
+                            <span className="text-xs font-semibold text-secondary-900">Software Engineer — DataFlow Inc</span>
+                            <span className="text-[10px] text-secondary-500">2019 – 2022</span>
                           </div>
-                          <div className="h-2 w-20 bg-primary-200 rounded mt-1" />
-                          <div className="mt-1.5 space-y-1">
-                            <div className="h-2 w-full bg-secondary-100 rounded" />
-                            <div className="h-2 w-3/4 bg-secondary-100 rounded" />
-                          </div>
+                          <p className="text-[11px] text-secondary-600 mt-0.5">
+                            • Built real-time streaming ETL pipelines processing 2TB+ daily data
+                          </p>
                         </div>
                       </div>
                     </div>
-                    <div className="border-t border-secondary-100 pt-3">
-                      <div className="h-3 w-16 bg-secondary-800 rounded mb-2" />
+
+                    <div className="border-t border-secondary-200 pt-2.5">
+                      <h4 className="text-[11px] font-bold uppercase tracking-wider text-secondary-900 mb-1.5">
+                        Skills
+                      </h4>
                       <div className="flex flex-wrap gap-1.5">
-                        {['Python', 'SQL', 'AWS', 'Spark', 'Docker', 'React'].map((s) => (
-                          <span key={s} className="px-2 py-0.5 text-[10px] bg-primary-50 text-primary-700 rounded-full border border-primary-100">
+                        {['TypeScript', 'React', 'Node.js', 'Python', 'Go', 'AWS', 'Docker', 'PostgreSQL'].map((s) => (
+                          <span key={s} className="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-md border border-primary-100">
                             {s}
                           </span>
                         ))}

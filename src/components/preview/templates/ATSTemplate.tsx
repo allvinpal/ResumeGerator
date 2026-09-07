@@ -5,7 +5,7 @@ interface TemplateProps {
 }
 
 export default function ATSTemplate({ resume }: TemplateProps) {
-  const { personalInfo: info, settings, sectionVisibility, sectionOrder } = resume;
+  const { personalInfo: info, sectionVisibility, sectionOrder } = resume;
 
   const baseFontSize = '11px';
   const lineHeight = 1.45;

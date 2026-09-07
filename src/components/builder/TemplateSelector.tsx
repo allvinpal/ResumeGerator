@@ -1,5 +1,6 @@
 import { useResumeStore } from '../../store/resumeStore';
 import { SECTION_METADATA, TEMPLATE_METADATA } from '../../types/resume';
+import TemplateThumbnail from '../preview/TemplateThumbnail';
 
 const ACCENT_COLORS = [
   { value: '#1a56db', label: 'Blue' },
@@ -47,15 +48,9 @@ export default function TemplateSelector() {
                 }
               `}
             >
-              {/* Mini preview placeholder */}
-              <div className="aspect-[3/4] bg-white rounded-lg border border-secondary-200 mb-2 p-2">
-                <div className="space-y-1">
-                  <div className="h-2 w-3/4 bg-secondary-300 rounded" />
-                  <div className="h-1.5 w-1/2 bg-primary-300 rounded" />
-                  <div className="h-1 w-full bg-secondary-100 rounded mt-2" />
-                  <div className="h-1 w-5/6 bg-secondary-100 rounded" />
-                  <div className="h-1 w-2/3 bg-secondary-100 rounded" />
-                </div>
+              {/* Realistic mini preview */}
+              <div className="aspect-[3/4] bg-white rounded-lg border border-secondary-200 mb-2 overflow-hidden shadow-xs">
+                <TemplateThumbnail template={tmpl.id} />
               </div>
               <p className="text-xs font-semibold text-secondary-900">{tmpl.name}</p>
               <div className="flex gap-1 mt-1">

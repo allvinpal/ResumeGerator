@@ -2,10 +2,9 @@ import type { TemplateType } from '../../types/resume';
 
 interface Props {
   template: TemplateType;
-  accentColor?: string;
 }
 
-export default function TemplateThumbnail({ template, accentColor = '#2563eb' }: Props) {
+export default function TemplateThumbnail({ template }: Props) {
   switch (template) {
     case 'executive':
       return (
